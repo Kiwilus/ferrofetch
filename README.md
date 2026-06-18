@@ -169,6 +169,8 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 
 ### Planned features
 
+- better get_gpu function without SHELL usage (not linux only)
+- --no_ascii flag (Just show the system Info)
 - Neat argument list and help function
 
 ### Done things
