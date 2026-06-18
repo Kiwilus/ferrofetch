@@ -30,7 +30,7 @@ pub fn get_disk_usage() -> Vec<String> {
         let bar_width       = 40;
         let occupied_blocks = ((percent / 100.0) * bar_width as f64).round() as usize;
         let filled          = "#".repeat(occupied_blocks);
-        let empty           = "~".repeat(bar_width - occupied_blocks);
+        let empty           = "#".repeat(bar_width - occupied_blocks);
 
         let bar = if percent > 90.0 {
             filled.red().to_string()
