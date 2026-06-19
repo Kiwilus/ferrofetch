@@ -1,32 +1,7 @@
 use sysinfo::{System, Disks};
 use local_ip_address::local_ip;
 use owo_colors::OwoColorize;
-use std::process::Command;
-
-
-/*
-FUNCTION TO GET GPU NAME
-*/
-fn get_gpu() -> String {
-    // Run "lspci" and filter for VGA (works on Linux)
-    let output = Command::new("sh")
-        .arg("-c")
-        .arg("lspci | grep -i vga")
-        .output();
-
-    match output {
-        Ok(out) => {
-            let text = String::from_utf8_lossy(&out.stdout).to_string();
-            // Nimm nur den Teil nach dem ":" 
-            text.split(':')
-                .last()
-                .unwrap_or("Unknown")
-                .trim()
-                .to_string()
-        }
-        Err(_) => "Unknown".to_string()
-    }
-}
+use gfxinfo::active_gpu;
 
 
 /*
@@ -94,7 +69,7 @@ pub fn get_infos() -> Vec<String> {
     let os_name   = System::name().unwrap_or("Unknown".to_string());
     let kernel    = System::kernel_version().unwrap_or("Unknown".to_string());
     let cpu_name  = system.cpus()[0].brand().to_string();
-    let gpu_name = get_gpu();
+    let gpu_name = active_gpu();
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used  = system.used_memory()  / 1024 / 1024;
@@ -112,7 +87,7 @@ pub fn get_infos() -> Vec<String> {
         format!("Kernel:     {}", kernel),
         format!("Uptime:     {}", uptime),
         format!("CPU:        {}", cpu_name),
-        format!("GPU:        {}", gpu_name),
+        format!("GPU:        {}", gpu_name.expect("Unknown").model()),
         format!("RAM:        {} MB / {} MB", ram_used, ram_total),
         format!("Local IP:   {:?}", ip_adress),
         format!("Disk usage: "),

@@ -54,7 +54,7 @@ ferrofetch
 
 ### you can set the color and the banner when executing ```ferrofetch --banner your_banner_of_choice --color your_color_of_choice```
 
-### or with a custom banner: ferrofetch --banner_path path_to_your_ascii_banner.txt
+### or with a custom banner: ```ferrofetch --banner_path path_to_your_ascii_banner.txt```
 
 ---
 
@@ -169,12 +169,13 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 
 ### Planned features
 
-- better get_gpu function without SHELL usage (not linux only)
+- remove the Ok() in the IP adress function
 - --no_ascii flag (Just show the system Info)
 - Neat argument list and help function
 
 ### Done things
 
+- better get_gpu function without SHELL usage (not linux only)
 - configuration via .toml file where you can set color/banner manually and forever
 - Argument parsing with clap and other ASCII banners
 - Argument parsing with clap for the color of the banner
