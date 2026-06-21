@@ -68,11 +68,18 @@ pub fn get_infos() -> Vec<String> {
     let hostname  = whoami::hostname().unwrap_or_else(|_| "Unknown".to_string());
     let os_name   = System::name().unwrap_or("Unknown".to_string());
     let kernel    = System::kernel_version().unwrap_or("Unknown".to_string());
+    
     let cpu_name  = system.cpus()[0].brand().to_string();
+    let cpu_cores = system.cpus().len();
+
     let gpu_name = active_gpu();
+    let gpu_info = gpu_name.as_ref().expect("Unknown").info();
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used  = system.used_memory()  / 1024 / 1024;
+
+    let swap_total = system.total_swap() / 1024 / 1024;
+    let swap_used = system.used_swap() / 1024 / 1024;
 
     let uptime_secs = System::uptime();
     let uptime = format!("{}h {}m", uptime_secs / 3600, uptime_secs % 3600 / 60);
@@ -87,8 +94,11 @@ pub fn get_infos() -> Vec<String> {
         format!("Kernel:     {}", kernel),
         format!("Uptime:     {}", uptime),
         format!("CPU:        {}", cpu_name),
+        format!("CPU Cores:  {}", cpu_cores),
         format!("GPU:        {}", gpu_name.expect("Unknown").model()),
+        format!("VRAM:       {} MB", gpu_info.total_vram() / 1024 / 1024),
         format!("RAM:        {} MB / {} MB", ram_used, ram_total),
+        format!("SWAP:       {} MB / {} MB", swap_used, swap_total),
         format!("Local IP:   {:?}", ip_adress),
         format!("Disk usage: "),
     ];
