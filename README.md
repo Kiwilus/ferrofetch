@@ -25,6 +25,7 @@ Ferro means iron in Latin, iron gets rusty — and the project is written in Rus
 - Adjustable color and different banners with cli arguments
 - select banner directly from path in .txt file
 - Persistent configuration via `config.toml`
+- no_ascii flag just to show the system information without a banner
 
 ---
 
@@ -58,6 +59,8 @@ ferrofetch
 ### you can set the color and the banner when executing ```ferrofetch --banner your_banner_of_choice --color your_color_of_choice```
 
 ### or with a custom banner: ```ferrofetch --banner_path path_to_your_ascii_banner.txt```
+
+### or without a benner: ```ferrofetch --no-ascii```
 
 ---
 
@@ -151,6 +154,9 @@ color = "cyan"
 
 # Optional: use a custom banner from a text file
 banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/home/youruser' and not '~/'
+
+# and you can deactivate the banner and just display ypur system information
+no_ascii = true
 ```
 ---
 
@@ -173,10 +179,10 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 ### Planned features
 
 - CPU/GPU usage
-- --no_ascii flag (Just show the system Info)
 
 ### Done things
 
+- --no_ascii flag (Just show the system Info)
 - remove the Ok() in the IP adress function
 - When no gpu found do no panic just dont show it
 - GPU VRAM, CPU Cores, SWAP memory

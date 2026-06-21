@@ -23,7 +23,10 @@ struct Args {
     list: bool,
 
     #[arg(long)]
-    banner_path: Option<String>
+    banner_path: Option<String>,
+
+    #[arg(short, long, default_value_t = false)]
+    no_ascii: bool,
 }
 
 
@@ -42,6 +45,8 @@ fn main() {
     // load config from config.toml
     let cfg = config::load_config();
 
+    let no_ascii = args.no_ascii || cfg.no_ascii.unwrap_or(false);
+
     // CLI Flag > config.toml > Hardcoded Fallback
     let banner = args.banner
         .or(cfg.banner)
@@ -53,17 +58,28 @@ fn main() {
 
     let banner_path = args.banner_path.or(cfg.banner_path);
 
-    let ascii: Vec<String>;
-
-    // check banner path and use the banner file
-    if let Some(path) = banner_path {
-        ascii = banners::get_banner_from_path(&path);
-    } else {
-        // logic for build in banners
-        let vec_static = banners::get_banners(&banner);
-        ascii = vec_static.iter().map(|&s| s.to_string()).collect();
-    }
+    let _ascii: Vec<String>;
 
     let infos = get_infos::get_infos();
-    print_fetch::print_fetch(&ascii.iter().map(|s| s.as_str()).collect::<Vec<&str>>(), &infos, &color);
+
+    if no_ascii {
+        // show only infos, without banner
+        for line in &infos {
+            println!("{}", line);
+        }
+    } else {
+        // show banner + infos
+        let ascii: Vec<String> = if let Some(path) = banner_path {
+            banners::get_banner_from_path(&path)
+        } else {
+            let vec_static = banners::get_banners(&banner);
+            vec_static.iter().map(|&s| s.to_string()).collect()
+        };
+
+        print_fetch::print_fetch(
+            &ascii.iter().map(|s| s.as_str()).collect::<Vec<&str>>(),
+            &infos,
+            &color
+        );
+    }
 }

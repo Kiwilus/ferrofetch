@@ -7,6 +7,7 @@ pub struct Config {
     pub banner: Option<String>,
     pub color: Option<String>,
     pub banner_path: Option<String>,
+    pub no_ascii: Option<bool>,
 }
 
 pub fn get_config_path() -> PathBuf {

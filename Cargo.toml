@@ -1,7 +1,11 @@
 [package]
 name = "ferrofetch"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+license = "MIT"
+repository = "github.com/Kiwilus/ferrofetch"
+keywords = ["system-info", "cli", "system_tool"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 sysinfo = "0.37"
