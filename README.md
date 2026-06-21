@@ -173,11 +173,11 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 ### Planned features
 
 - CPU/GPU usage
-- remove the Ok() in the IP adress function
 - --no_ascii flag (Just show the system Info)
 
 ### Done things
 
+- - remove the Ok() in the IP adress function
 - When no gpu found do no panic just dont show it
 - GPU VRAM, CPU Cores, SWAP memory
 - better get_gpu function without SHELL usage (not linux only)

@@ -61,6 +61,7 @@ pub fn get_infos() -> Vec<String> {
         .first()
         .map(|c| c.brand().to_string())
         .unwrap_or_else(|| "Unknown".to_string());
+
     let cpu_cores = system.cpus().len();
 
     let binding = active_gpu().ok();
@@ -68,6 +69,7 @@ pub fn get_infos() -> Vec<String> {
         .as_ref()
         .map(|g| g.model())
         .unwrap_or_else(|| "Unknown");
+
     let vram_mb = active_gpu()
         .ok()
         .map(|g| {
@@ -78,6 +80,7 @@ pub fn get_infos() -> Vec<String> {
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used  = system.used_memory()  / 1024 / 1024;
+    
     let swap_total = system.total_swap() / 1024 / 1024;
     let swap_used  = system.used_swap()  / 1024 / 1024;
 
