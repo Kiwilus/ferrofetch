@@ -80,7 +80,7 @@ pub fn get_infos() -> Vec<String> {
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used  = system.used_memory()  / 1024 / 1024;
-    
+
     let swap_total = system.total_swap() / 1024 / 1024;
     let swap_used  = system.used_swap()  / 1024 / 1024;
 
@@ -91,20 +91,45 @@ pub fn get_infos() -> Vec<String> {
         .map(|ip| ip.to_string())
         .unwrap_or_else(|_| "Unknown".to_string());
 
+
+    macro_rules! info {
+        () => { String::new() };
+        ($label:expr, $val:expr, $color:ident) => {
+            format!("{}{}", format!("{:<12}", $label).$color(), $val)
+        };
+    }
+
+    // build the info lines: empty info!() = blank line, color per category
     let mut infos = vec![
-        format!(""),
+        info!(),
         format!(" [{}@{}]", username.yellow(), hostname.green()),
-        format!("OS:         {}", os_name),
-        format!("Kernel:     {}", kernel),
-        format!("Uptime:     {}", uptime),
-        format!("CPU:        {}", cpu_name),
-        format!("CPU Cores:  {}", cpu_cores),
-        format!("GPU:        {}", gpu_model),
-        format!("VRAM:       {}", vram_mb),
-        format!("RAM:        {} MB / {} MB", ram_used, ram_total),
-        format!("SWAP:       {} MB / {} MB", swap_used, swap_total),
-        format!("Local IP:   {}", ip_address),
-        format!("Disk usage: "),
+
+        // system
+        info!("OS:",        os_name,    green),
+        info!("Kernel:",    kernel,     green),
+        info!("Uptime:",    uptime,     green),
+        // info!(),
+
+        // processor
+        info!("CPU:",       cpu_name,   cyan),
+        info!("CPU Cores:", cpu_cores,  cyan),
+        // info!(),
+
+        // graphics
+        info!("GPU:",       gpu_model,  magenta),
+        info!("VRAM:",      vram_mb,    magenta),
+        // info!(),
+
+        // memory
+        info!("RAM:",  format!("{ram_used} MB / {ram_total} MB"),   yellow),
+        info!("SWAP:", format!("{swap_used} MB / {swap_total} MB"), yellow),
+        // info!(),
+
+        // network
+        info!("Local IP:", ip_address, bright_red),
+        // info!(),
+
+        "Disk usage:".bright_black().to_string(),
     ];
 
     infos.extend(get_disk_usage());
