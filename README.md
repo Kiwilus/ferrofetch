@@ -14,8 +14,11 @@ Ferro means iron in Latin, iron gets rusty — and the project is written in Rus
 - Kernel
 - System uptime
 - CPU name
+- CPU Cores
 - GPU name
+- VRAM
 - RAM (used/total)
+- SWAP (used/total)
 - local IP Adress
 - Disk Usage with bar
 - ASCII banners
@@ -169,12 +172,15 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 
 ### Planned features
 
+- When no gpu found do no panic just dont show it
+- CPU/GPU usage
 - remove the Ok() in the IP adress function
 - --no_ascii flag (Just show the system Info)
 - Neat argument list and help function
 
 ### Done things
 
+- GPU VRAM, CPU Cores, SWAP memory
 - better get_gpu function without SHELL usage (not linux only)
 - configuration via .toml file where you can set color/banner manually and forever
 - Argument parsing with clap and other ASCII banners
