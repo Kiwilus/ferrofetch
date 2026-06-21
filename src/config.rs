@@ -28,7 +28,7 @@ pub fn load_config() -> Config {
             match toml::from_str(&content) {
                 Ok(cfg) => cfg,
                 Err(e) => {
-                    println!("Warning: config.toml hat Fehler: {}", e);
+                    println!("Warning: config.toml has an Error: {}", e);
                     Config::default()
                 }
             }
