@@ -6,6 +6,7 @@ use gfxinfo::active_gpu;
 /*
 2 FUNCTIONS TO GET THE DISK USAGE
 */
+
 // calculates disk usage
 fn disk_usage_info(total: u64, available: u64) -> (f64, f64, f64) {
     let total_gb     = total as f64 / 1_073_741_824.0;

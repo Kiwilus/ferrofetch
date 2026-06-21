@@ -2,7 +2,6 @@
 MAIN FILE
 */
 
-
 use clap::Parser;
 
 mod banners;
