@@ -3,11 +3,9 @@ use local_ip_address::local_ip;
 use owo_colors::OwoColorize;
 use gfxinfo::active_gpu;
 
-
 /*
 2 FUNCTIONS TO GET THE DISK USAGE
 */
-
 // calculates disk usage
 fn disk_usage_info(total: u64, available: u64) -> (f64, f64, f64) {
     let total_gb     = total as f64 / 1_073_741_824.0;
@@ -21,25 +19,19 @@ fn disk_usage_info(total: u64, available: u64) -> (f64, f64, f64) {
 fn get_disk_usage() -> Vec<String> {
     let disks = Disks::new_with_refreshed_list();
     let mut lines = Vec::new();
-
     for disk in &disks {
         let total     = disk.total_space();
         let available = disk.available_space();
         let (percent, used_gb, total_gb) = disk_usage_info(total, available);
-
         let mount = disk.mount_point().display().to_string();
         let kind  = format!("{:?}", disk.kind());
-
-        lines.push(format!("* {}", 
+        lines.push(format!("* {}",
             format!("{mount} [{kind}] -> {used_gb:.1} GB / {total_gb:.1} GB ({percent:.1}%)")
-            .to_string()
         ));
-
         let bar_width       = 40;
         let occupied_blocks = ((percent / 100.0) * bar_width as f64).round() as usize;
         let filled          = "#".repeat(occupied_blocks);
         let empty           = "#".repeat(bar_width - occupied_blocks);
-
         let bar = if percent > 90.0 {
             filled.red().to_string()
         } else if percent > 75.0 {
@@ -47,19 +39,15 @@ fn get_disk_usage() -> Vec<String> {
         } else {
             filled.green().to_string()
         };
-
         lines.push(format!("   [{}{}]", bar, empty));
         lines.push(format!(""));
     }
-
     lines
 }
 
-
-/* 
+/*
 'MAIN' FUNCTION IN THIS FILE
 */
-
 pub fn get_infos() -> Vec<String> {
     let mut system = System::new();
     system.refresh_all();
@@ -68,25 +56,38 @@ pub fn get_infos() -> Vec<String> {
     let hostname  = whoami::hostname().unwrap_or_else(|_| "Unknown".to_string());
     let os_name   = System::name().unwrap_or("Unknown".to_string());
     let kernel    = System::kernel_version().unwrap_or("Unknown".to_string());
-    
-    let cpu_name  = system.cpus()[0].brand().to_string();
+
+    let cpu_name = system.cpus()
+        .first()
+        .map(|c| c.brand().to_string())
+        .unwrap_or_else(|| "Unknown".to_string());
     let cpu_cores = system.cpus().len();
 
-    let gpu_name = active_gpu();
-    let gpu_info = gpu_name.as_ref().expect("Unknown").info();
+    let binding = active_gpu().ok();
+    let gpu_model = binding
+        .as_ref()
+        .map(|g| g.model())
+        .unwrap_or_else(|| "Unknown");
+    let vram_mb = active_gpu()
+        .ok()
+        .map(|g| {
+            let total = g.info().total_vram();
+            if total > 0 { format!("{} MB", total / 1024 / 1024) } else { "Unknown".to_string() }
+        })
+        .unwrap_or_else(|| "Unknown".to_string());
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used  = system.used_memory()  / 1024 / 1024;
-
     let swap_total = system.total_swap() / 1024 / 1024;
-    let swap_used = system.used_swap() / 1024 / 1024;
+    let swap_used  = system.used_swap()  / 1024 / 1024;
 
     let uptime_secs = System::uptime();
     let uptime = format!("{}h {}m", uptime_secs / 3600, uptime_secs % 3600 / 60);
 
-    let ip_adress =  local_ip();
+    let ip_address = local_ip()
+        .map(|ip| ip.to_string())
+        .unwrap_or_else(|_| "Unknown".to_string());
 
-    // Return all infos as a list
     let mut infos = vec![
         format!(""),
         format!(" [{}@{}]", username.yellow(), hostname.green()),
@@ -95,16 +96,14 @@ pub fn get_infos() -> Vec<String> {
         format!("Uptime:     {}", uptime),
         format!("CPU:        {}", cpu_name),
         format!("CPU Cores:  {}", cpu_cores),
-        format!("GPU:        {}", gpu_name.expect("Unknown").model()),
-        format!("VRAM:       {} MB", gpu_info.total_vram() / 1024 / 1024),
+        format!("GPU:        {}", gpu_model),
+        format!("VRAM:       {}", vram_mb),
         format!("RAM:        {} MB / {} MB", ram_used, ram_total),
         format!("SWAP:       {} MB / {} MB", swap_used, swap_total),
-        format!("Local IP:   {:?}", ip_adress),
+        format!("Local IP:   {}", ip_address),
         format!("Disk usage: "),
     ];
 
-    // Add disk lines under infos
     infos.extend(get_disk_usage());
     infos
-
 }
