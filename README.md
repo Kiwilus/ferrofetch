@@ -178,10 +178,11 @@ no_ascii = true
 
 ### Planned features
 
-- CPU/GPU usage
+- get_infos.rs in seperate files
 
 ### Done things
 
+- CPU/GPU usage
 - --no_ascii flag (Just show the system Info)
 - remove the Ok() in the IP adress function
 - When no gpu found do no panic just dont show it

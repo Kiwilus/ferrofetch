@@ -71,24 +71,31 @@ pub fn get_infos() -> Vec<String> {
         .unwrap_or_else(|| "Unknown".to_string());
 
     let cpu_cores = system.cpus().len();
+    let cpu_usage = system.global_cpu_usage();
 
-    let binding = active_gpu().ok();
-    let gpu_model = binding
+    let gpu = active_gpu();
+    let gpu_model = gpu.as_ref().map(|g| g.model()).unwrap_or("Unknown");
+
+    // get the VRAM and usage
+    let gpu_info = gpu.as_ref().and_then(|g| Ok(g.info()));
+
+    let vram_mb = gpu_info
         .as_ref()
-        .map(|g| g.model())
-        .unwrap_or_else(|| "Unknown");
-
-    let vram_mb = active_gpu()
-        .ok()
-        .map(|g| {
-            let total = g.info().total_vram();
+        .map(|info| {
+            let total = info.total_vram();
             if total > 0 {
                 format!("{} MB", total / 1024 / 1024)
             } else {
                 "Unknown".to_string()
             }
         })
-        .unwrap_or_else(|| "Unknown".to_string());
+        .unwrap_or_else(|_| "Unknown".to_string());
+
+    // gpu usage
+    let gpu_usage = gpu_info
+        .as_ref()
+        .map(|info| format!("{}%", info.load_pct()))
+        .unwrap_or_else(|_| "Unknown".to_string());
 
     let ram_total = system.total_memory() / 1024 / 1024;
     let ram_used = system.used_memory() / 1024 / 1024;
@@ -127,12 +134,14 @@ pub fn get_infos() -> Vec<String> {
         //format!("[CPU Info]").cyan().to_string(),
         info!("CPU:", cpu_name, cyan),
         info!("CPU Cores:", cpu_cores, cyan),
+        info!("CPU Usage:", format!("{:.2}%", cpu_usage), cyan),
         //info!(),
 
         /*graphics*/
         //format!("[Graphics Info]").magenta().to_string(),
         info!("GPU:", gpu_model, magenta),
         info!("VRAM:", vram_mb, magenta),
+        info!("GPU Usage:", gpu_usage, magenta),
         //info!(),
 
         /*memory*/
