@@ -22,8 +22,3 @@ sysinfo = "0.39.5"
 [[bin]]
 name = "ferrofetch"
 path = "src/main.rs"
-
-# The profile that 'dist' will build with
-[profile.dist]
-inherits = "release"
-lto = "thin"
