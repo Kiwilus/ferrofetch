@@ -6,8 +6,8 @@ use clap::Parser;
 
 mod banners;
 mod config;
-mod get_infos;
 mod print_fetch;
+mod system;
 
 // cli arguments e.g. ferrofetch --banner green
 #[derive(Parser)]
@@ -61,7 +61,7 @@ fn main() {
 
     let _ascii: Vec<String>;
 
-    let infos = get_infos::get_infos();
+    let infos = system::get_infos();
 
     if no_ascii {
         // show only infos, without banner
