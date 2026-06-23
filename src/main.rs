@@ -29,7 +29,6 @@ struct Args {
     no_ascii: bool,
 }
 
-
 // main entry point
 fn main() {
     let args = Args::parse();
@@ -48,11 +47,13 @@ fn main() {
     let no_ascii = args.no_ascii || cfg.no_ascii.unwrap_or(false);
 
     // CLI Flag > config.toml > Hardcoded Fallback
-    let banner = args.banner
+    let banner = args
+        .banner
         .or(cfg.banner)
         .unwrap_or_else(|| "batman".to_string());
 
-    let color = args.color
+    let color = args
+        .color
         .or(cfg.color)
         .unwrap_or_else(|| "white".to_string());
 
@@ -79,7 +80,7 @@ fn main() {
         print_fetch::print_fetch(
             &ascii.iter().map(|s| s.as_str()).collect::<Vec<&str>>(),
             &infos,
-            &color
+            &color,
         );
     }
 }

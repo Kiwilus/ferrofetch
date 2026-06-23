@@ -3,7 +3,7 @@ name = "ferrofetch"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
-repository = "github.com/Kiwilus/ferrofetch"
+repository = "https://github.com/Kiwilus/ferrofetch.git"
 keywords = ["system-info", "cli", "system_tool"]
 categories = ["command-line-utilities"]
 
@@ -22,3 +22,8 @@ sysinfo = "0.39.5"
 [[bin]]
 name = "ferrofetch"
 path = "src/main.rs"
+
+# The profile that 'dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"

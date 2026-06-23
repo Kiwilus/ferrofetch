@@ -60,7 +60,7 @@ ferrofetch
 
 ### or with a custom banner: ```ferrofetch --banner_path path_to_your_ascii_banner.txt```
 
-### or without a benner: ```ferrofetch --no-ascii```
+### or without a banner: ```ferrofetch --no-ascii```
 
 ---
 
@@ -179,6 +179,7 @@ no_ascii = true
 ### Planned features
 
 - get_infos.rs in seperate files
+- precompiled binaries
 
 ### Done things
 
