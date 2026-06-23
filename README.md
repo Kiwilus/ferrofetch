@@ -15,8 +15,10 @@ Ferro means iron in Latin, iron gets rusty — and the project is written in Rus
 - System uptime
 - CPU name
 - CPU Cores
+- CPU usage
 - GPU name
 - VRAM
+- GPU usage
 - RAM (used/total)
 - SWAP (used/total)
 - local IP Adress
@@ -178,8 +180,7 @@ no_ascii = true
 
 ### Planned features
 
-- get_infos.rs in seperate files
-- precompiled binaries
+- when banner_path set in config.toml, you cant execute 'ferrofetch --banner batman' the banner_path will ovverride it and you are forced to edit the config.toml 
 
 ### Done things
 
