@@ -180,6 +180,12 @@ no_ascii = true
 
 ### Planned features
 
+- Multiple config profiles
+- Shell + Terminal
+- Desktop Envoirment/Window manager
+- cross-platform support
+- Eradicate all unwrap() and expect() calls by introducing nead error handling
+- Implement a diagnostic flag 
 - when banner_path set in config.toml, you cant execute 'ferrofetch --banner batman' the banner_path will ovverride it and you are forced to edit the config.toml 
 
 ### Done things
