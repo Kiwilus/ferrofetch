@@ -46,7 +46,9 @@ fn main() {
 
     let no_ascii = args.no_ascii || cfg.no_ascii.unwrap_or(false);
 
-    // CLI Flag > config.toml > Hardcoded Fallback
+    // looking if --banner has been passed in the CLI
+    let banner_from_cli = args.banner.is_some();
+
     let banner = args
         .banner
         .or(cfg.banner)
@@ -57,7 +59,12 @@ fn main() {
         .or(cfg.color)
         .unwrap_or_else(|| "white".to_string());
 
-    let banner_path = args.banner_path.or(cfg.banner_path);
+    // CLI --banner takes precedence -> ignore banner_path
+    let banner_path = if banner_from_cli {
+        None
+    } else {
+        args.banner_path.or(cfg.banner_path)
+    };
 
     let _ascii: Vec<String>;
 

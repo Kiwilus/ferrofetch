@@ -186,10 +186,10 @@ no_ascii = true
 - cross-platform support
 - Eradicate all unwrap() and expect() calls by introducing nead error handling
 - Implement a diagnostic flag 
-- when banner_path set in config.toml, you cant execute 'ferrofetch --banner batman' the banner_path will ovverride it and you are forced to edit the config.toml 
 
 ### Done things
 
+- when banner_path set in config.toml, you cant execute 'ferrofetch --banner batman' the banner_path will ovverride it and you are forced to edit the config.toml 
 - CPU/GPU usage
 - --no_ascii flag (Just show the system Info)
 - remove the Ok() in the IP adress function
