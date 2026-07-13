@@ -160,10 +160,12 @@ banner_path = "/home/youruser/.config/ferrofetch/my_banner.txt" # please use '/h
 # and you can deactivate the banner and just display ypur system information
 no_ascii = true
 ```
+
 ---
 
 
-- ### Available colors
+### Available colors
+
 - red
 - green
 - yellow
@@ -181,14 +183,13 @@ no_ascii = true
 ### Planned features
 
 - Multiple config profiles
-- Shell + Terminal
 - Desktop Envoirment/Window manager
 - cross-platform support
 - Eradicate all unwrap() and expect() calls by introducing nead error handling
-- Implement a diagnostic flag 
 
 ### Done things
 
+- Shell + Terminal
 - when banner_path set in config.toml, you cant execute 'ferrofetch --banner batman' the banner_path will ovverride it and you are forced to edit the config.toml 
 - CPU/GPU usage
 - --no_ascii flag (Just show the system Info)

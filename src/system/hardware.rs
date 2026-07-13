@@ -4,7 +4,8 @@ use owo_colors::OwoColorize;
 use sysinfo::System;
 
 use super::disk::get_disk_usage;
-
+use super::shell::get_shell;
+use super::terminal::detect_terminal;
 /*
 'MAIN' FUNCTION IN THIS FILE
 */
@@ -95,6 +96,9 @@ pub fn get_infos() -> Vec<String> {
         info!("SWAP:", format!("{swap_used} MB / {swap_total} MB"), yellow),
         //info!(),
 
+        /*SHELL, WM and additional info */
+        info!("SHELL:", get_shell(), blue),
+        info!("Terminal:", detect_terminal(), blue),
         /*network*/
         //format!("[Network Info]").bright_red().to_string(),
         info!("Local IP:", ip_address, bright_red),
