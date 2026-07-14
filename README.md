@@ -28,6 +28,7 @@ Ferro means iron in Latin, iron gets rusty — and the project is written in Rus
 - select banner directly from path in .txt file
 - Persistent configuration via `config.toml`
 - no_ascii flag just to show the system information without a banner
+- rainbow RGB color
 
 ---
 
@@ -174,6 +175,7 @@ no_ascii = true
 - cyan
 - white
 - black
+- rainbow
 
 
 ---

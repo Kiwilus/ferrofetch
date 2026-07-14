@@ -1,8 +1,8 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::fs;
-use std::path::PathBuf;
+use dirs::home_dir;
 
-#[derive(Deserialize, Default)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     pub banner: Option<String>,
     pub color: Option<String>,
@@ -12,30 +12,29 @@ pub struct Config {
     // pub seperator: Option<bool>,
 }
 
-pub fn get_config_path() -> PathBuf {
-    let mut path = dirs::config_dir().unwrap_or_else(|| PathBuf::from("."));
-    path.push("ferrofetch");
-    path.push("config.toml");
-    path
+impl Default for Config {
+    fn default() -> Self {
+        Config {
+            banner: Some("batman".to_string()),
+            color: Some("white".to_string()),   // Standardfarbe
+            banner_path: None,
+            no_ascii: Some(false),
+        }
+    }
 }
 
+
 pub fn load_config() -> Config {
-    let path = get_config_path();
-    
-    if !path.exists() {
-        return Config::default();
+    let config_dir = home_dir().unwrap_or_default().join(".config").join("ferrofetch");
+    let config_path = config_dir.join("config.toml");
+
+    if !config_path.exists() {
+        // Create directory and standart config if not already did
+        let _ = fs::create_dir_all(&config_dir);
+        let default_config = toml::to_string_pretty(&Config::default()).unwrap();
+        let _ = fs::write(&config_path, default_config);
     }
 
-    match fs::read_to_string(&path) {
-        Ok(content) => {
-            match toml::from_str(&content) {
-                Ok(cfg) => cfg,
-                Err(e) => {
-                    println!("Warning: config.toml has an Error: {}", e);
-                    Config::default()
-                }
-            }
-        }
-        Err(_) => Config::default(),
-    }
+    let content = fs::read_to_string(&config_path).unwrap_or_default();
+    toml::from_str(&content).unwrap_or_else(|_| Config::default())
 }
