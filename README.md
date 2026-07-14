@@ -180,11 +180,13 @@ no_ascii = true
 
 ## Roadmap
 
-### Planned features
+### Planned features!!
 
+- Choose which information is displayed via config.toml using options like show_os = true, show_cpu = false, etc.
+- Battery status
+- '--color random' flag
 - Multiple config profiles
 - Desktop Envoirment/Window manager
-- cross-platform support
 - Eradicate all unwrap() and expect() calls by introducing nead error handling
 
 ### Done things
